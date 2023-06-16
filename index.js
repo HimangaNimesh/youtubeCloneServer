@@ -5,6 +5,7 @@ import UserRoutes from "./server/User/User.Routes.js"
 import VideoRoutes from "./server/Video/Video.Routes.js"
 import CommentRoutes from "./server/Comment/Comment.Routes.js"
 import authRoutes from "./server/auth/auth.Routes.js"
+import cookieParser from "cookie-parser"
 
 const app =express()
 dotenv.config()
@@ -18,6 +19,7 @@ const connect = () => {
     })
 }
 
+app.use(cookieParser())
 app.use(express.json())
 
 app.use("/api/auth", authRoutes)

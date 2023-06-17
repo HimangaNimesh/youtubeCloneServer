@@ -9,6 +9,7 @@ export const update = async(req, res, next) => {
             }, 
             {new: true}
             )
+            console.log(req.params)
             res.status(200).json(updatedUser)
         } catch (error) {
             next(error)
@@ -33,24 +34,57 @@ export const deleteUser = async(req, res, next) => {
     }
 }
 
-export const getUser = (req, res, next) => {
-    
+export const getUser = async(req, res, next) => {
+    try {
+        const user = await UserModel.findById(req.params.id)
+        res.status(200).json(user)
+    } catch (error) {
+        next(error)
+    }
 }
 
-export const subscribe = (req, res, next) => {
-    
+export const subscribe = async(req, res, next) => {
+    try {
+        await UserModel.findById(req.user.id, {
+            $push: {subscribedUsers:req.params.id}
+        })
+        await UserModel.findByIdAndUpdate(req.user.id , {
+            $inc: {subscribes: 1}
+        })
+        res.status(200).json("Subscription successfull!")
+    } catch (error) {
+        next(error)
+    }
 }
 
-export const unsubcribe = (req, res, next) => {
-    
+export const unsubcribe = async(req, res, next) => {
+    try {
+        await UserModel.findById(req.user.id, {
+            $pull: {subscribedUsers:req.params.id}
+        })
+        await UserModel.findByIdAndUpdate(req.user.id , {
+            $inc: {subscribes: -1}
+        })
+        res.status(200).json("Unsubscription successfull!")
+    } catch (error) {
+        next(error)
+    }
 }
 
-export const like = (req, res, next) => {
-    
+export const like = async(req, res, next) => {
+    try {
+        
+    } catch (error) {
+        next(error)
+    }
 }
 
-export const dislike = (req, res, next) => {
-    
+export const dislike = async(req, res, next) => {
+    try {
+        
+    } catch (error) {
+        next(error)
+    }
 }
 
 
